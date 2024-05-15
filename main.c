@@ -1,26 +1,3 @@
-# DumbGarbageCollector
-
-Very basic and dumb "garbage collector" for C that allows not to care (almost) about proper allocs and frees
-
-Very dumb garbage collector. It just stores all the pointers, and allows to free them all not caring about forgotten pointers.
-
-If you use this, DON'T USE default calloc/malloc/realloc/free. Use only the given ones.
-
-In case of error free all of YOUR resources, and call `dgc_free_all`.
-
-Before exit also don't forget to call `dgc_free_all`.
-
-Be careful: any method can return NULL, it does not free the memory in case of error.
-
-This is not very performance-efficient as it uses LinkedList, so if you are going to reallocate/free pointers a lot (calloc/malloc don't affect it), be careful.
-
-Also it doesn't handle some edge cases (cyclic references etc), it's a very basic implementation.
-
-## Usage example
-
-You can find it in `main.c`
-
-```c
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -67,7 +44,3 @@ int main(void)
 
     return EXIT_SUCCESS;
 }
-```
-
-## Credits
-Made with ❤ by Futupas and ChatGPT
