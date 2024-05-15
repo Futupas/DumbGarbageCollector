@@ -4,7 +4,6 @@
 
 struct dumb_gc {
     struct dgc_node* first_node;
-    // struct dgc_node* last_node;
 };
 
 struct dgc_node {
