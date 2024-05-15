@@ -4,7 +4,7 @@
 
 struct dumb_gc {
     struct dgc_node* first_node;
-    struct dgc_node* last_node;
+    // struct dgc_node* last_node;
 };
 
 struct dgc_node {
@@ -22,14 +22,8 @@ struct dumb_gc* dgc_init() {
 static void add_node(struct dumb_gc* dgc, void* ptr) {
     struct dgc_node* node = calloc(1, sizeof(struct dgc_node));
     node->ptr = ptr;
-
-    if (dgc->first_node == NULL) {
-        // DGC is empty
-        dgc->first_node = node;
-    } else {
-        dgc->last_node->next_node = node;
-    }
-    dgc->last_node = node;
+    node->next_node = dgc->first_node;
+    dgc->first_node = node;
 }
 
 void* dgc_calloc(struct dumb_gc* dgc, size_t num, size_t size) {
@@ -83,9 +77,6 @@ void* dgc_free(struct dumb_gc* dgc, void* src) {
                 dgc->first_node = curr->next_node;
             } else {
                 prev->next_node = curr->next_node;
-            }
-            if (curr == dgc->last_node) {
-                dgc->last_node = prev;
             }
             free(curr->ptr);
             free(curr);
