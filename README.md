@@ -18,7 +18,7 @@ Also it doesn't handle some edge cases (cyclic references etc), it's a very basi
 
 ## Usage example
 
-You can find it in `main.c`
+You can find it in [main.c](https://github.com/Futupas/DumbGarbageCollector/blob/main/main.c)
 
 ```c
 #include <stdlib.h>
