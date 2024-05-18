@@ -1,6 +1,8 @@
 #ifndef DUMB_GARBAGE_COLLECTOR_H
 #define DUMB_GARBAGE_COLLECTOR_H
 
+// https://github.com/Futupas/DumbGarbageCollector
+
 #include <stdlib.h>
 
 struct dumb_gc;
