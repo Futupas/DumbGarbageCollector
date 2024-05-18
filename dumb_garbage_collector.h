@@ -17,7 +17,7 @@ struct dumb_gc;
 
 // License: MIT
 
-// Initializes DUmb Garbage Collectoru
+// Initializes Dumb Garbage Collector
 struct dumb_gc* dgc_init();
 
 // Allocates memory for an array of num objects of size and initializes all bytes in the allocated storage to 0. Returns NULL in case of error
