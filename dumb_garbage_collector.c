@@ -18,17 +18,25 @@ struct dumb_gc* dgc_init() {
     return dgc;
 }
 
-static void add_node(struct dumb_gc* dgc, void* ptr) {
+// returns 1 if successfully added a node
+static int add_node(struct dumb_gc* dgc, void* ptr) {
     struct dgc_node* node = calloc(1, sizeof(struct dgc_node));
+    if (node == NULL) {
+        return 0;
+    }
     node->ptr = ptr;
     node->next_node = dgc->first_node;
     dgc->first_node = node;
+    return 1;
 }
 
 void* dgc_calloc(struct dumb_gc* dgc, size_t num, size_t size) {
     void* ptr = calloc(num, size);
     if (ptr != NULL) {
-        add_node(dgc, ptr);
+        if (!add_node(dgc, ptr)) {
+            free(ptr);
+            return NULL;
+        }
     }
     return ptr;
 }
@@ -36,7 +44,10 @@ void* dgc_calloc(struct dumb_gc* dgc, size_t num, size_t size) {
 void* dgc_malloc(struct dumb_gc* dgc, size_t size) {
     void* ptr = malloc(size);
     if (ptr != NULL) {
-        add_node(dgc, ptr);
+        if (!add_node(dgc, ptr)) {
+            free(ptr);
+            return NULL;
+        }
     }
     return ptr;
 }
@@ -58,7 +69,10 @@ void* dgc_realloc(struct dumb_gc* dgc, void *ptr, size_t new_size) {
 
     // If the old pointer is not found in the list, add the new pointer as a new node
     if (node == NULL) {
-        add_node(dgc, new_ptr);
+        if (!add_node(dgc, ptr)) {
+            free(ptr);
+            return NULL;
+        }
     }
 
     return new_ptr;
@@ -77,10 +91,9 @@ static int pointer_exists(struct dumb_gc* dgc, void *ptr) {
 
 int dgc_add(struct dumb_gc* dgc, void *ptr) {
     if (pointer_exists(dgc, ptr))  {
-        return 1;
+        return 2;
     }
-    add_node(dgc, ptr);
-    return 1;
+    return add_node(dgc, ptr);
 }
 
 
