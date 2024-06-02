@@ -29,6 +29,9 @@ void* dgc_malloc(struct dumb_gc* dgc, size_t size);
 // Reallocates the given area of memory. Returns NULL in case of error
 void* dgc_realloc(struct dumb_gc* dgc, void *ptr, size_t new_size);
 
+// Adds a pointer to DGC. Returns 1 if added successfully or it already existed, otherwise 0
+int dgc_add(struct dumb_gc* dgc, void *ptr);
+
 // Deallocates the space. Always returns NULL
 void* dgc_free(struct dumb_gc* dgc, void* src);
 

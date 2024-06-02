@@ -64,6 +64,25 @@ void* dgc_realloc(struct dumb_gc* dgc, void *ptr, size_t new_size) {
     return new_ptr;
 }
 
+static int pointer_exists(struct dumb_gc* dgc, void *ptr) {
+    struct dgc_node* curr = dgc->first_node;
+    while (curr != NULL) {
+        if (curr->ptr == ptr) {
+            return 1;
+        }
+        curr = curr->next_node;
+    }
+    return 0;
+}
+
+int dgc_add(struct dumb_gc* dgc, void *ptr) {
+    if (pointer_exists(dgc, ptr))  {
+        return 1;
+    }
+    add_node(dgc, ptr);
+    return 1;
+}
+
 
 void* dgc_free(struct dumb_gc* dgc, void* src) {
     if (src == NULL) return NULL;
