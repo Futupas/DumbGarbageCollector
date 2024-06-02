@@ -56,7 +56,7 @@ int main(void)
         printf("Add existing pointer: OK\n");
     }
     {
-        int* ptr = malloc(5);
+        int* ptr = malloc(5); // it can be `strdup` or something that allocates memory inside
         assert_pointer_is_not_null(dgc, ptr);
         int res = dgc_add(dgc, ptr);
         assert_equals(dgc, 1, res);
