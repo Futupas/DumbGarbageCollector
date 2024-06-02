@@ -14,6 +14,14 @@ static void assert_pointer_is_not_null(struct dumb_gc* dgc, void* ptr) {
     exit(EXIT_FAILURE);
 }
 
+static void assert_equals(struct dumb_gc* dgc, int expected, int actual) {
+    if (expected != actual) {
+        fprintf(stderr, "Assertion error. Expected %d, got %d.\n", expected, actual);
+        dgc_free_all(dgc); // Don't forget to free the resources!
+        exit(EXIT_FAILURE);
+    }
+}
+
 int main(void)
 {
     // Init DGC
@@ -41,6 +49,24 @@ int main(void)
     ints1[104] = 6;
     ints1[120] = 9;
     printf("ReAlloc: %d, %d\n", ints1[104], ints1[120]);
+
+    {
+        int res = dgc_add(dgc, ints1);
+        assert_equals(dgc, 2, res);
+        printf("Add existing pointer: OK\n");
+    }
+    {
+        int* ptr = malloc(5);
+        assert_pointer_is_not_null(dgc, ptr);
+        int res = dgc_add(dgc, ptr);
+        assert_equals(dgc, 1, res);
+        printf("Add non-existing pointer: OK\n");
+    }
+    {
+        int res = dgc_add(dgc, NULL);
+        assert_equals(dgc, 0, res);
+        printf("Add NULL pointer: OK\n");
+    }
 
     // Final free
     dgc_free_all(dgc);

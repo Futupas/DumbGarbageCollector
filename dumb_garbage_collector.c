@@ -20,6 +20,9 @@ struct dumb_gc* dgc_init() {
 
 // returns 1 if successfully added a node
 static int add_node(struct dumb_gc* dgc, void* ptr) {
+    if (ptr == NULL) {
+        return 0;
+    }
     struct dgc_node* node = calloc(1, sizeof(struct dgc_node));
     if (node == NULL) {
         return 0;
