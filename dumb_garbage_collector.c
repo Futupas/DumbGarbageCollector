@@ -68,7 +68,7 @@ void* dgc_realloc(struct dumb_gc* dgc, void *ptr, size_t new_size) {
     }
 
     // If the old pointer is not found in the list, add the new pointer as a new node
-    if (node == NULL && !add_node(dgc, ptr)) {
+    if (node == NULL && !add_node(dgc, new_ptr)) {
         free(ptr);
         return NULL;
     }

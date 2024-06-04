@@ -90,6 +90,11 @@ int main(void)
         assert_equals(dgc, 0, res);
         printf("Add NULL pointer: OK\n");
     }
+    {
+        int* ptr = dgc_realloc(dgc, NULL, 5);
+        assert_pointer_is_not_null(dgc, ptr);
+        printf("Realloc NULL-pointer: OK\n");
+    }
 
     // Final free
     dgc_free_all(dgc);
